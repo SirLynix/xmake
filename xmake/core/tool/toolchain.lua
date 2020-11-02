@@ -221,7 +221,9 @@ end
 -- on check (builtin)
 function _instance:_on_check()
     local on_check = self:info():get("check")
+    print("on_check", self:name(), on_check)
     if not on_check and (self:cross() or self:sdkdir()) then
+        print("check_cross_toolchain")
         on_check = self.check_cross_toolchain
     end
     return on_check

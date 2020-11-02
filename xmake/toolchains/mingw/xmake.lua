@@ -34,6 +34,8 @@ toolchain("mingw")
     -- on load
     on_load(function (toolchain)
 
+        print("mingw load")
+
         -- imports
         import("core.project.config")
 

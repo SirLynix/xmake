@@ -24,6 +24,7 @@ import("detect.sdks.find_mingw")
 
 -- check the mingw toolchain
 function main(toolchain)
+    print("check mingw")
     local mingw = find_mingw(config.get("mingw"), {verbose = true, bindir = config.get("bin"), cross = config.get("cross")})
     if mingw then
         config.set("mingw", mingw.sdkdir, {force = true, readonly = true})
