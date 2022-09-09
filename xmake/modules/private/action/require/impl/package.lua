@@ -956,12 +956,6 @@ function _compatible_with_previous_librarydeps(package, opt)
         return true
     end
 
-    -- has been checked?
-    local compatible_checked = package:data("librarydeps.compatible_checked")
-    if compatible_checked then
-        return
-    end
-
     -- check strict compatibility for librarydeps?
     local strict_compatibility = project.policy("package.librarydeps.strict_compatibility")
     if strict_compatibility == nil then
@@ -979,6 +973,12 @@ function _compatible_with_previous_librarydeps(package, opt)
             }
             depnames:insert(dep:name())
         end
+    end
+
+    -- check if package was fetched and asks us to not check for compatibility
+    local fetchinfo = package:fetch()
+    if not fetchinfo.check_compatibility then
+        return true
     end
 
     -- compute the buildhash for previous librarydeps
