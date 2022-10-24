@@ -10,7 +10,11 @@ Microsoft Visual Studio Solution File, Format Version #solution_version#.00
 #
 VisualStudioVersion = #vs_version#
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BuildAll", "BuildAll\BuildAll.vcxproj", "{A30DCC69-52F9-4110-A4E7-23D16803887F}"
+EndProject
 #Import(Project)#
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".xmake", ".xmake", "{A453FDB5-B2A2-4FEF-A7E4-4B9A75517DEF}"
+EndProject
 #Import(ProjectGroup)#
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Properties", "Properties", "{007754BD-BB1F-452F-A0D8-13EF216C5ED9}"
 	ProjectSection(SolutionItems) = preProject
@@ -23,11 +27,12 @@ Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 #Import(SlnConfig)#	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-#Import(ProjConfig)#	EndGlobalSection
+#Import(XmakeProjConfig)# #Import(ProjConfig)#	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
+		{A30DCC69-52F9-4110-A4E7-23D16803887F} = {A453FDB5-B2A2-4FEF-A7E4-4B9A75517DEF}
 #Import(ProjectGroupConfig)#	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {#solution_id#}
