@@ -879,7 +879,7 @@ function _load_packages(requires, opt)
                                                         nodeps = opt.nodeps,
                                                         system = false})
                     for _, dep in ipairs(deps) do
-                        print(" - package has dependency " .. dep:name())
+                        print(" - package(" .. package:name() .. " has dependency " .. dep:name())
                         table.insert(packages, dep)
                         packagedeps[dep:name()] = dep
                     end
