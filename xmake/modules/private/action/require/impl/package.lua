@@ -705,7 +705,7 @@ end
 
 -- load required packages
 function _load_package(packagename, requireinfo, opt)
-
+    print("_load_package")
     -- strip trailng ~tag, e.g. zlib~debug
     local displayname
     if packagename:find('~', 1, true) then
@@ -847,7 +847,7 @@ end
 
 -- load all required packages
 function _load_packages(requires, opt)
-
+    print("_load_packages")
     -- no requires?
     if not requires or #requires == 0 then
         return {}
@@ -865,6 +865,7 @@ function _load_packages(requires, opt)
 
         -- maybe package not found and optional
         if package then
+            print("required package ", package:name())
 
             -- load dependent packages and save them first of this package
             if not package._DEPS then
@@ -878,6 +879,7 @@ function _load_packages(requires, opt)
                                                         nodeps = opt.nodeps,
                                                         system = false})
                     for _, dep in ipairs(deps) do
+                        print(" - package has dependency " .. dep:name())
                         table.insert(packages, dep)
                         packagedeps[dep:name()] = dep
                     end
@@ -953,16 +955,18 @@ end
 -- compatible with all previous link dependencies?
 -- @see https://github.com/xmake-io/xmake/issues/2719
 function _compatible_with_previous_librarydeps(package, opt)
-
+    print(" _compatible_with_previous_librarydeps(" .. package:name() .. ")")
     -- skip to check compatibility if installation has been finished
     opt = opt or {}
     if opt.install_finished then
+        print("   - yes (install_finished is true)")
         return true
     end
 
     -- has been checked?
     local compatible_checked = package:data("librarydeps.compatible_checked")
     if compatible_checked then
+        print("   - yes (compatible_checked is true)")
         return
     end
 
@@ -1003,6 +1007,7 @@ function _compatible_with_previous_librarydeps(package, opt)
 
     -- no any dependencies
     if depnames:empty() then
+        print("   - yes (no any dependencies)")
         return true
     end
 
@@ -1031,6 +1036,7 @@ function _compatible_with_previous_librarydeps(package, opt)
     if not is_compatible then
         package:data_set("force_reinstall", true)
     end
+    print("   - is_compatible (" .. tostring(is_compatible) .. ")")
     return is_compatible
 end
 
@@ -1041,29 +1047,36 @@ end
 
 -- this package should be install?
 function should_install(package, opt)
+    print("should_install(" .. package:name() .. ")")
     opt = opt or {}
     if package:is_template() then
+        print(" - no (template)")
         return false
     end
     if not opt.install_finished and package:policy("package.install_always") then
+        print(" - yes (install_always)")
         return true
     end
     if package:exists() and _compatible_with_previous_librarydeps(package, opt) then
+        print(" - no (_compatible_with_previous_librarydeps returned true)")
         return false
     end
     -- we need not install it if this package need only be fetched
     if package:is_fetchonly() then
+        print(" - no (fetchonly)")
         return false
     end
     -- only get system package? e.g. add_requires("xxx", {system = true})
     local requireinfo = package:requireinfo()
     if requireinfo and requireinfo.system then
+        print(" - no (system package)")
         return false
     end
     if package:parents() then
         -- if all the packages that depend on it already exist, then there is no need to install it
         for _, parent in pairs(package:parents()) do
             if should_install(parent, opt) and not parent:exists() then
+                print(" - yes (should_install parent returned true)")
                 return true
             end
 
@@ -1078,12 +1091,15 @@ function should_install(package, opt)
                 if requireinfo.optional then
                     requireinfo.optional = nil
                 end
+                print(" - yes (parent package depends on us)")
                 return true
             end
         end
     else
         return true
     end
+
+    print(" - ? (end of function)")
 end
 
 -- get package configs string
