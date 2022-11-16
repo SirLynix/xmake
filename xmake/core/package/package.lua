@@ -392,6 +392,7 @@ end
 function _instance:parents_add(...)
     for _, parent in ipairs({...}) do
         self._PARENTS = self._PARENTS or {}
+        print("package(" .. self:name() .. "):parents_add(" .. parent:name() .. ")")
         self._PARENTS[parent:name()] = parent
     end
 end
