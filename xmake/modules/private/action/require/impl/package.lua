@@ -1089,7 +1089,7 @@ function should_install(package, opt)
             --
             print("should_install(" .. package:name() .. ") parent:exists = " .. tostring(parent:exists()))
             print("should_install(" .. package:name() .. ") option.get(\"force\") = " .. tostring(option.get("force")))
-            print("should_install(" .. package:name() .. ") _must_depend_on(" .. parent:name() .. ", " .. package:name() .. ") = " .. tostring(_must_depend_on(parent, package)))
+            print("should_install(" .. package:name() .. ") _must_depend_on(" .. parent:name() .. ", " .. package:name() .. ") = " .. tostring(_must_depend_on(parent, package) or false))
             if parent:exists() and not option.get("force") and _must_depend_on(parent, package) then
                 -- mark this package as non-optional because parent package need it
                 local requireinfo = package:requireinfo()
