@@ -1096,6 +1096,7 @@ function should_install(package, opt)
             end
         end
     else
+        print(" - yes")
         return true
     end
 

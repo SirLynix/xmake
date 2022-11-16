@@ -359,12 +359,14 @@ end
 
 -- should install package?
 function _should_install_package(instance)
+    print("_should_install_package(" .. instance:name() .. ")")
     _g.package_status_cache = _g.package_status_cache or {}
     local result = _g.package_status_cache[tostring(instance)]
     if result == nil then
         result = package.should_install(instance) or false
         _g.package_status_cache[tostring(instance)] = result
     end
+    print("_should_install_package(" .. instance:name() .. ") = " .. tostring(result))
     return result
 end
 
@@ -411,6 +413,7 @@ function _install_packages(packages_install, packages_download, installdeps)
                     end
                 end
                 local group = pkg:group()
+                print("pkg(" .. tostring(pkg:name() .. ")):group() = " .. tostring(group))
                 if ready and group then
                     -- this group has been installed? skip it
                     local group_status = packages_in_group[group]
