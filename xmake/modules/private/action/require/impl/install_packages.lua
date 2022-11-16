@@ -359,14 +359,14 @@ end
 
 -- should install package?
 function _should_install_package(instance)
-    print("_should_install_package(" .. instance:name() .. ")")
+    print("_should_install_package(" .. instance:name() .. " - " .. tostring(instance) .. ")")
     _g.package_status_cache = _g.package_status_cache or {}
     local result = _g.package_status_cache[tostring(instance)]
     if result == nil then
         result = package.should_install(instance) or false
         _g.package_status_cache[tostring(instance)] = result
     end
-    print("_should_install_package(" .. instance:name() .. ") = " .. tostring(result))
+    print("_should_install_package(" .. instance:name() .. " - " .. tostring(instance) .. ") = " .. tostring(result))
     return result
 end
 
