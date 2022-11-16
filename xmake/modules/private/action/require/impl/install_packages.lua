@@ -413,7 +413,7 @@ function _install_packages(packages_install, packages_download, installdeps)
                     end
                 end
                 local group = pkg:group()
-                print("pkg(" .. tostring(pkg:name() .. ")):group() = " .. tostring(group))
+                print("pkg(" .. tostring(pkg:name()) .. ")):group() = " .. tostring(group))
                 if ready and group then
                     -- this group has been installed? skip it
                     local group_status = packages_in_group[group]
