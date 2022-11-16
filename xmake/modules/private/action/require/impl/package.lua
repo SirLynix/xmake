@@ -948,6 +948,7 @@ function _must_depend_on(package, dep)
     local manifest = package:manifest_load()
     if manifest and manifest.librarydeps then
         local librarydeps = hashset.from(manifest.librarydeps)
+        print("_must_depend_on librarydeps(" .. package:name() .. ", " .. dep:name() .. ") = ", librarydeps:to_array())
         return librarydeps:has(dep:name())
     end
 end
@@ -1050,33 +1051,34 @@ function should_install(package, opt)
     print("should_install(" .. package:name() .. ")")
     opt = opt or {}
     if package:is_template() then
-        print(" - no (template)")
+        print("should_install(" .. package:name() .. ") - no (template)")
         return false
     end
     if not opt.install_finished and package:policy("package.install_always") then
-        print(" - yes (install_always)")
+        print("should_install(" .. package:name() .. ") - yes (install_always)")
         return true
     end
     if package:exists() and _compatible_with_previous_librarydeps(package, opt) then
-        print(" - no (_compatible_with_previous_librarydeps returned true)")
+        print("should_install(" .. package:name() .. ") - no (_compatible_with_previous_librarydeps returned true)")
         return false
     end
     -- we need not install it if this package need only be fetched
     if package:is_fetchonly() then
-        print(" - no (fetchonly)")
+        print("should_install(" .. package:name() .. ") - no (fetchonly)")
         return false
     end
     -- only get system package? e.g. add_requires("xxx", {system = true})
     local requireinfo = package:requireinfo()
     if requireinfo and requireinfo.system then
-        print(" - no (system package)")
+        print("should_install(" .. package:name() .. ") - no (system package)")
         return false
     end
     if package:parents() then
         -- if all the packages that depend on it already exist, then there is no need to install it
         for _, parent in pairs(package:parents()) do
+            print("should_install(" .. package:name() .. ") checking parent " .. parent:name())
             if should_install(parent, opt) and not parent:exists() then
-                print(" - yes (should_install parent returned true)")
+                print("should_install(" .. package:name() .. ") - yes (should_install " .. parent:name() .. " returned true)")
                 return true
             end
 
@@ -1085,22 +1087,25 @@ function should_install(package, opt)
             --
             -- @see https://github.com/xmake-io/xmake/issues/1460
             --
+            print("should_install(" .. package:name() .. ") parent:exists = " .. tostring(parent:exists()))
+            print("should_install(" .. package:name() .. ") option.get(\"force\") = " .. tostring(option.get("force")))
+            print("should_install(" .. package:name() .. ") _must_depend_on(" .. parent:name() .. ", " .. package:name() .. ") = " .. tostring(_must_depend_on(parent, package)))
             if parent:exists() and not option.get("force") and _must_depend_on(parent, package) then
                 -- mark this package as non-optional because parent package need it
                 local requireinfo = package:requireinfo()
                 if requireinfo.optional then
                     requireinfo.optional = nil
                 end
-                print(" - yes (parent package depends on us)")
+                print("should_install(" .. package:name() .. ") - yes (parent package depends on us)")
                 return true
             end
         end
     else
-        print(" - yes")
+        print("should_install(" .. package:name() .. ") - yes")
         return true
     end
 
-    print(" - ? (end of function)")
+    print("should_install(" .. package:name() .. ") - nil (end of function)")
 end
 
 -- get package configs string
