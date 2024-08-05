@@ -71,8 +71,8 @@ function main(toolchain)
     end
 
     -- init flags for c/c++
-    toolchain:add("ldflags", "-Xlinker -v -v")
-    toolchain:add("shflags", "-Xlinker -v -v")
+    toolchain:add("ldflags", "-Xlinker -v")
+    toolchain:add("shflags", "-Xlinker -v")
     toolchain:add("shflags", "-lz")
     toolchain:add("shflags", "-lz")
 
