@@ -71,7 +71,9 @@ function main(toolchain)
     end
 
     -- init flags for c/c++
-    toolchain:add("ldflags", "-lz")
+    toolchain:add("ldflags", "-Xlinker -v -v")
+    toolchain:add("shflags", "-Xlinker -v -v")
+    toolchain:add("shflags", "-lz")
     toolchain:add("shflags", "-lz")
 
     -- init flags for objc/c++ (with ldflags and shflags)
