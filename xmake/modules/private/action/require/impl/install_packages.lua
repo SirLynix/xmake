@@ -361,7 +361,7 @@ function _fetch_packages(packages_fetch, installdeps)
         packages_fetching[index] = nil
 
     end, {total = #packages_fetch,
-          comax = (option.get("verbose") or option.get("diagnosis")) and 1 or 4,
+          comax = 4,
           isolate = true})
 end
 
@@ -533,7 +533,7 @@ function _do_install_packages(packages_install, packages_download, installdeps)
         packages_downloading[index] = nil
 
     end, {total = #packages_install,
-          comax = (option.get("verbose") or option.get("diagnosis")) and 1 or 4,
+          comax = 4,
           isolate = true,
           on_timer = function (running_jobs_indices)
 
