@@ -29,6 +29,7 @@ import("xcode.xcodeproj")
 import("ninja.build_ninja")
 import("vstudio.vs")
 import("vsxmake.vsxmake")
+import("xmakevs.xmakevs")
 import("clang.compile_flags")
 import("clang.compile_commands")
 import("private.utils.statistics")
@@ -63,6 +64,7 @@ function makers()
     ,   vsxmake2019      = vsxmake.make(2019)
     ,   vsxmake2022      = vsxmake.make(2022)
     ,   vsxmake          = vsxmake.make()
+    ,   xmakevs          = xmakevs.make()
     ,   compile_flags    = compile_flags.make
     ,   compile_commands = compile_commands.make
     }
